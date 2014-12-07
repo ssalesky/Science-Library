@@ -7,9 +7,12 @@
 #----------------------------------------------------------
 
 #Import all required packages
-import numpy as np
-from matplotlib.colors import Normalize
-import matplotlib.pyplot as plt
+import numpy as np                              #Numpy
+from matplotlib.colors import Normalize         #Normalize class
+import matplotlib.pyplot as plt                 #Matplotlib.pyplot
+from matplotlib.ticker import MultipleLocator, \
+     AutoLocator, AutoMinorLocator              #Tick locations
+#from matplotlib import ticker                   #Ticker
 
 #----------------------------------------------------------    
 #Functions for reading/manipulating data
@@ -43,6 +46,35 @@ def read_f90_bin(path,nx,ny,nz,precision):
 #----------------------------------------------------------    
 #Classes and functions for generating plots with Matplotlib
 #----------------------------------------------------------
+
+def set_ticks(ax,xmaj=None,xmin=None,ymaj=None,ymin=None):
+    """Sets major/minor axis tickmarks at specified increments.
+    
+    ax          => Axis handle (e.g. ax=plt.subplot(111))
+    xmaj,ymaj   => Major tick frequency (optional)
+    xmin,ymin   => Minor tick frequency (optional)
+    """
+
+    if xmaj is None:
+        ax.xaxis.set_major_locator(AutoLocator())
+    else:
+        ax.xaxis.set_major_locator(MultipleLocator(xmaj))
+
+    if ymaj is None:
+        ax.yaxis.set_major_locator(AutoLocator())
+    else:
+        ax.yaxis.set_major_locator(MultipleLocator(ymaj))
+
+    if xmin is None:
+        ax.xaxis.set_minor_locator(AutoMinorLocator())
+    else:
+        ax.xaxis.set_minor_locator(MultipleLocator(xmin))
+
+    if ymin is None:
+        ax.yaxis.set_minor_locator(AutoMinorLocator())
+    else:
+        ax.yaxis.set_minor_locator(MultipleLocator(ymin))
+
 
 def gen_colorlist(n,cmap):
     """Returns list of n colors evenly spaced from a given colormap.
