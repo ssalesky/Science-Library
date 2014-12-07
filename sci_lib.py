@@ -53,6 +53,11 @@ def set_ticks(ax,xmaj=None,xmin=None,ymaj=None,ymin=None):
     ax          => Axis handle (e.g. ax=plt.subplot(111))
     xmaj,ymaj   => Major tick frequency (optional)
     xmin,ymin   => Minor tick frequency (optional)
+    
+    Example Usage: 
+        ax=subplot(111)
+        plt.plot(x,y)
+        set_ticks(ax,xmaj=5,xmin=1,ymaj=1,ymin=0.2)
     """
 
     if xmaj is None:
