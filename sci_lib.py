@@ -8,9 +8,13 @@
 #Import all required packages
 import numpy as np
 from matplotlib.colors import Normalize
+import matplotlib.pyplot as plt
 
-def read_f90_bin(path,nx,ny,nz,precision):
-    
+#----------------------------------------------------------    
+#Functions for reading/manipulating data
+#----------------------------------------------------------
+
+def read_f90_bin(path,nx,ny,nz,precision):  
     """Reads Fortran binary direct access files into Numpy.
     
     path        => path to file to read
@@ -35,6 +39,32 @@ def read_f90_bin(path,nx,ny,nz,precision):
     f.close()
     return dat
     
+#----------------------------------------------------------    
+#Classes and functions for generating plots with Matplotlib
+#----------------------------------------------------------
+
+def gen_colorlist(n,cmap):
+    """Returns list of n colors evenly spaced from a given colormap.
+
+    Useful for making a line plot with n lines with colors that are
+    evenly spaced according to a given colormap.
+        n       => number of colors to return
+        cmap    => colormap (e.g. from pyplot.cm.colormapname)
+        returns colorlist   => n tuples corresponding to colors
+    
+    Example Usage: 
+        colorlist=gen_colorlist(ncolors,colormapname)
+        for i in range(n):
+            plt.plot(data[:,0],dat[:,i+1],color=colorlist[i],args*)    
+    """
+    
+    colorlist=[]
+    vals=np.linspace(1.0/n,1.0,n)
+    for i in range(n):
+        colorlist.append(cmap(vals[i]))
+    return colorlist
+    
+    
 class MidPointNormalize(Normalize):
     """Defines the midpoint of diverging colormap.
     
@@ -55,3 +85,4 @@ class MidPointNormalize(Normalize):
         # simple example...
         x, y = [self.vmin, self.midpoint, self.vmax], [0, 0.5, 1]
         return np.ma.masked_array(np.interp(value, x, y))
+        
